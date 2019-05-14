@@ -38,9 +38,6 @@ func main() {
 	n := w * h
 	p := primes(n)
 	q := fold(p, w)
-//	for y := 0; y < h; y++ {
-//		fmt.Println(q[y])
-//	}
 
 	var colorcode string
 	if strings.Index(*opt_front, "#") == 0 {
