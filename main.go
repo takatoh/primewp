@@ -215,7 +215,6 @@ func colorname2code(name string) string {
 		newColor("#D3D3D3", "LightGrey"),
 		newColor("#FFB6C1", "LightPink"),
 		newColor("#FFA07A", "LightSalmon"),
-		newColor("#FFA07A", "LightSalmon"),
 		newColor("#20B2AA", "LightSeaGreen"),
 		newColor("#87CEFA", "LightSkyBlue"),
 		newColor("#778899", "LightSlateGray"),
