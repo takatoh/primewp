@@ -43,9 +43,9 @@ func main() {
 //	}
 
 	red, green, blue := code2rgb(*opt_front)
-	c := color.RGBA{uint8(red), uint8(green), uint8(blue), 255}
+	c := color.RGBA{red, green, blue, 255}
 	red, green, blue = code2rgb(*opt_back)
-	b := color.RGBA{uint8(red), uint8(green), uint8(blue), 255}
+	b := color.RGBA{red, green, blue, 255}
 	img := image.NewRGBA(image.Rect(0, 0, w, h))
 	for x := 0; x < w; x++ {
 		for y := 0; y < h; y++ {
@@ -100,12 +100,12 @@ func fold(p []bool, w int) [][]bool {
 	return r
 }
 
-func code2rgb(code string) (int64, int64, int64) {
+func code2rgb(code string) (uint8, uint8, uint8) {
 	sr := code[1:3]
 	sg := code[3:5]
 	sb := code[5:7]
-	r, _ := strconv.ParseInt(sr, 16, 64)
-	g, _ := strconv.ParseInt(sg, 16, 64)
-	b, _ := strconv.ParseInt(sb, 16, 64)
-	return r, g, b
+	r, _ := strconv.ParseUint(sr, 16, 8)
+	g, _ := strconv.ParseUint(sg, 16, 8)
+	b, _ := strconv.ParseUint(sb, 16, 8)
+	return uint8(r), uint8(g), uint8(b)
 }
