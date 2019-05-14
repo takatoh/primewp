@@ -32,12 +32,9 @@ func main() {
 
 	n := w * h
 	p := primes(n)
-	for _, x := range p {
-		if x {
-			fmt.Println(1)
-		} else {
-			fmt.Println(0)
-		}
+	q := fold(p, w)
+	for y := 0; y < h; y++ {
+		fmt.Println(q[y])
 	}
 }
 
@@ -60,4 +57,17 @@ func primes(n int) []bool {
 	}
 
 	return p
+}
+
+func fold(p []bool, w int) [][]bool {
+	r := make([][]bool, 0)
+	s := make([]bool, 0)
+	for i := 0; i < len(p); i++ {
+		s = append(s, p[i])
+		if i % w == (w - 1) {
+			r = append(r, s)
+			s = make([]bool, 0)
+		}
+	}
+	return r
 }
