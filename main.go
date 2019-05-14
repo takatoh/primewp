@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"os"
 	"flag"
+	"image"
+	"image/color"
+	"image/png"
 	"strconv"
 //	"strings"
 )
@@ -33,9 +36,30 @@ func main() {
 	n := w * h
 	p := primes(n)
 	q := fold(p, w)
-	for y := 0; y < h; y++ {
-		fmt.Println(q[y])
+//	for y := 0; y < h; y++ {
+//		fmt.Println(q[y])
+//	}
+
+	img := image.NewRGBA(image.Rect(0, 0, w, h))
+	var c color.RGBA
+	for x := 0; x < w; x++ {
+		for y := 0; y < h; y++ {
+			if q[y][x] {
+				c = color.RGBA{255, 255, 255, 255}
+			} else {
+				c = color.RGBA{0, 0, 0, 255}
+			}
+			img.Set(x, y, c)
+		}
 	}
+
+	pngFilename := "primewp.png"
+	f, err := os.OpenFile(pngFilename, os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer f.Close()
+	png.Encode(f, img)
 }
 
 func primes(n int) []bool {
