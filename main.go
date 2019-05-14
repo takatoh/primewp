@@ -11,6 +11,10 @@ import (
 	"strings"
 )
 
+const (
+	progVersion = "0.1.0"
+)
+
 func main() {
 	Usage := func() {
 		fmt.Fprintf(os.Stderr, "Usage: %s [options] <width> <height>\n", os.Args[0])
@@ -20,12 +24,17 @@ func main() {
 	opt_front := flag.String("f", "#FFFFFF", "Set color for prime number")
 	opt_back := flag.String("b", "#000000", "Set color for not prime number")
 	opt_help := flag.Bool("h", false, "Help message")
+	opt_version := flag.Bool("v", false, "Show version")
 	flag.Parse()
 
-	if *opt_help || flag.NArg() < 1 {
+	if *opt_help {
 		Usage()
 		os.Exit(0)
+	} else if *opt_version {
+		fmt.Fprintf(os.Stderr, "v%s\n", progVersion)
+		os.Exit(0)
 	}
+
 	w, err := strconv.Atoi(flag.Arg(0))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Invalid argument.")
