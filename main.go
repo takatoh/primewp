@@ -33,11 +33,15 @@ func main() {
 	n := w * h
 	p := primes(n)
 	for _, x := range p {
-		fmt.Println(x)
+		if x {
+			fmt.Println(1)
+		} else {
+			fmt.Println(0)
+		}
 	}
 }
 
-func primes(n int) []int {
+func primes(n int) []bool {
 	p := make([]bool, n + 1)
 	// スライス p はゼロ値（false）で初期化されるので、2 と 3 以上の奇数だけ true に初期化する。
 	if 2 < n {
@@ -54,12 +58,6 @@ func primes(n int) []int {
 			}
 		}
 	}
-	// 素数だけ pn に追加。
-	pn := make([]int, 0)
-	for i := 2; i <= n; i++ {
-		if p[i] {
-			pn = append(pn, i)
-		}
-	}
-	return pn
+
+	return p
 }
