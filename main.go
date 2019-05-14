@@ -102,7 +102,7 @@ func primes(n int) []bool {
 		}
 	}
 
-	return p
+	return p[1:]
 }
 
 func fold(p []bool, w int) [][]bool {
