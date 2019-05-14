@@ -45,14 +45,22 @@ func main() {
 	} else {
 		colorcode = colorname2code(*opt_front)
 	}
-	red, green, blue := code2rgb(colorcode)
+	red, green, blue, e := code2rgb(colorcode)
+	if e != nil {
+		fmt.Fprintln(os.Stderr, "Invalide color code or name.")
+		os.Exit(1)
+	}
 	c := color.RGBA{red, green, blue, 255}
 	if strings.Index(*opt_back, "#") == 0 {
 		colorcode = *opt_back
 	} else {
 		colorcode = colorname2code(*opt_back)
 	}
-	red, green, blue = code2rgb(colorcode)
+	red, green, blue, e = code2rgb(colorcode)
+	if e != nil {
+		fmt.Fprintln(os.Stderr, "Invalide color code or name.")
+		os.Exit(1)
+	}
 	b := color.RGBA{red, green, blue, 255}
 	img := image.NewRGBA(image.Rect(0, 0, w, h))
 	for x := 0; x < w; x++ {
@@ -108,14 +116,17 @@ func fold(p []bool, w int) [][]bool {
 	return r
 }
 
-func code2rgb(code string) (uint8, uint8, uint8) {
+func code2rgb(code string) (uint8, uint8, uint8, error) {
 	sr := code[1:3]
 	sg := code[3:5]
 	sb := code[5:7]
-	r, _ := strconv.ParseUint(sr, 16, 8)
-	g, _ := strconv.ParseUint(sg, 16, 8)
-	b, _ := strconv.ParseUint(sb, 16, 8)
-	return uint8(r), uint8(g), uint8(b)
+	r, e1 := strconv.ParseUint(sr, 16, 64)
+	if e1 != nil { return 0, 0, 0, e1 }
+	g, e2 := strconv.ParseUint(sg, 16, 64)
+	if e2 != nil { return 0, 0, 0, e2 }
+	b, e3 := strconv.ParseUint(sb, 16, 64)
+	if e3 != nil { return 0, 0, 0, e3 }
+	return uint8(r), uint8(g), uint8(b), nil
 }
 
 type Color struct {
