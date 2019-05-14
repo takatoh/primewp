@@ -13,7 +13,9 @@ import (
 
 func main() {
 	Usage := func() {
-		fmt.Fprintf(os.Stderr, "Usage: %s <width> <height>\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "Usage: %s [options] <width> <height>\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "\nOptions:\n")
+		flag.PrintDefaults()
 	}
 	opt_front := flag.String("f", "#FFFFFF", "Set color for prime number")
 	opt_back := flag.String("b", "#000000", "Set color for not prime number")
