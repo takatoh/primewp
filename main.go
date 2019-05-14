@@ -46,8 +46,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	n := w * h
-	p := primes(n)
+	p := primes(w * h)
 	q := fold(p, w)
 
 	var colorcode string
