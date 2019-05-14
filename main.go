@@ -15,6 +15,8 @@ func main() {
 	Usage := func() {
 		fmt.Fprintf(os.Stderr, "Usage: %s <width> <height>\n", os.Args[0])
 	}
+	opt_front := flag.String("f", "#FFFFFF", "Set color for prime number")
+	opt_back := flag.String("b", "#000000", "Set color for not prime number")
 	opt_help := flag.Bool("h", false, "Help message")
 	flag.Parse()
 
@@ -40,16 +42,18 @@ func main() {
 //		fmt.Println(q[y])
 //	}
 
+	red, green, blue := code2rgb(*opt_front)
+	c := color.RGBA{uint8(red), uint8(green), uint8(blue), 255}
+	red, green, blue = code2rgb(*opt_back)
+	b := color.RGBA{uint8(red), uint8(green), uint8(blue), 255}
 	img := image.NewRGBA(image.Rect(0, 0, w, h))
-	var c color.RGBA
 	for x := 0; x < w; x++ {
 		for y := 0; y < h; y++ {
 			if q[y][x] {
-				c = color.RGBA{255, 255, 255, 255}
+				img.Set(x, y, c)
 			} else {
-				c = color.RGBA{0, 0, 0, 255}
+				img.Set(x, y, b)
 			}
-			img.Set(x, y, c)
 		}
 	}
 
@@ -94,4 +98,14 @@ func fold(p []bool, w int) [][]bool {
 		}
 	}
 	return r
+}
+
+func code2rgb(code string) (int64, int64, int64) {
+	sr := code[1:3]
+	sg := code[3:5]
+	sb := code[5:7]
+	r, _ := strconv.ParseInt(sr, 16, 64)
+	g, _ := strconv.ParseInt(sg, 16, 64)
+	b, _ := strconv.ParseInt(sb, 16, 64)
+	return r, g, b
 }
